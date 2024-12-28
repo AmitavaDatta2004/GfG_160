@@ -1,10 +1,25 @@
 class Solution:
-    def kthMissing(self, arr, k):
-        lo, hi = 0, len(arr)
-        while lo < hi:
-            mid = lo + (hi - lo) // 2
-            if arr[mid] - (mid + 1) < k:
-                lo = mid + 1
+    def findPages(self, arr, k):
+        n = len(arr)
+        if k > n:
+            return -1  
+
+        low, high = max(arr), sum(arr)  
+
+        while low < high:
+            mid = (low + high) // 2
+            students, current_sum = 1, 0
+
+            for pages in arr:
+                if current_sum + pages > mid:
+                    students += 1
+                    current_sum = pages
+                else:
+                    current_sum += pages
+
+            if students > k:
+                low = mid + 1
             else:
-                hi = mid
-        return lo + k
+                high = mid
+
+        return low
